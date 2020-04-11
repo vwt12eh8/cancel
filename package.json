@@ -5,7 +5,10 @@
   "license": "Unlicense",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vwt12eh8/ts-cancel.git"
+    "url": "https://github.com/vwt12eh8/cancel.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "index.d.ts",
