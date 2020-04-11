@@ -1,5 +1,5 @@
 {
-  "name": "ts-cancel",
+  "name": "@vwt12eh8/cancel",
   "version": "1.0.0",
   "main": "index.js",
   "license": "Unlicense",
@@ -7,7 +7,10 @@
     "type": "git",
     "url": "https://github.com/vwt12eh8/ts-cancel.git"
   },
-  "private": true,
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
   "engines": {
     "node": ">=10.20"
   },
