@@ -50,8 +50,8 @@ describe("isCancelled: true", () => {
 
     it("offCancelled", (done) => {
         const cancel = new CancelSource();
+        cancel.onCancelled(() => cancel.offCancelled(done));
         cancel.onCancelled(done);
-        cancel.offCancelled(done);
         cancel.cancel();
         setImmediate(done);
     });
