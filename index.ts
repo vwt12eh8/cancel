@@ -2,8 +2,8 @@
 
 export interface Cancel {
     readonly isCancelled: boolean;
-    offCancelled(listener: CancelledListener): void;
-    onCancelled(listener: CancelledListener): void;
+    off(listener: CancelledListener): void;
+    once(listener: CancelledListener): void;
     throwIfCancelled(): void;
 }
 
@@ -22,7 +22,7 @@ export class CancelSource implements Cancel {
 
     public constructor(...parents: Cancel[]) {
         for (const parent of parents) {
-            parent.onCancelled(this.cancel.bind(this));
+            parent.once(this.cancel.bind(this));
         }
     }
 
@@ -38,14 +38,14 @@ export class CancelSource implements Cancel {
         return !!this._error;
     }
 
-    public offCancelled(listener: CancelledListener) {
+    public off(listener: CancelledListener) {
         const i = this._listeners.indexOf(listener);
         if (i >= 0) {
             this._listeners.splice(i, 1);
         }
     }
 
-    public onCancelled(listener: CancelledListener) {
+    public once(listener: CancelledListener) {
         if (this._error) {
             process.nextTick(listener, this._error);
         } else {

@@ -12,9 +12,9 @@ describe("isCancelled: false", () => {
         cancel.throwIfCancelled();
     });
 
-    it("onCancelled", (done) => {
+    it("once", (done) => {
         const cancel = new CancelSource();
-        cancel.onCancelled(done);
+        cancel.once(done);
         setImmediate(done);
     });
 });
@@ -35,9 +35,9 @@ describe("isCancelled: true", () => {
         );
     });
 
-    it("onCancelled", (done) => {
+    it("once", (done) => {
         const cancel = new CancelSource();
-        cancel.onCancelled((error) => {
+        cancel.once((error) => {
             try {
                 assert(error instanceof CancelledError);
                 done();
@@ -48,10 +48,10 @@ describe("isCancelled: true", () => {
         cancel.cancel();
     });
 
-    it("offCancelled", (done) => {
+    it("off", (done) => {
         const cancel = new CancelSource();
-        cancel.onCancelled(() => cancel.offCancelled(done));
-        cancel.onCancelled(done);
+        cancel.once(() => cancel.off(done));
+        cancel.once(done);
         cancel.cancel();
         setImmediate(done);
     });
