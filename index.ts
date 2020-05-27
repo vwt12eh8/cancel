@@ -31,7 +31,13 @@ export class CancelSource implements Cancel {
             return;
         }
         this._error = error || new CancelledError();
-        process.nextTick(this._onCancelled.bind(this));
+        process.nextTick(() => {
+            let listener;
+            // tslint:disable-next-line: no-conditional-assignment
+            while (listener = this._listeners.shift()) {
+                listener(this._error!);
+            }
+        });
     }
 
     public get isCancelled() {
@@ -56,14 +62,6 @@ export class CancelSource implements Cancel {
     public throwIfCancelled() {
         if (this._error) {
             throw this._error;
-        }
-    }
-
-    private _onCancelled() {
-        let listener;
-        // tslint:disable-next-line: no-conditional-assignment
-        while (listener = this._listeners.shift()) {
-            listener(this._error!);
         }
     }
 }
