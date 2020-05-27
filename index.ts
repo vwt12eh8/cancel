@@ -35,7 +35,11 @@ export class CancelSource implements Cancel {
             let listener;
             // tslint:disable-next-line: no-conditional-assignment
             while (listener = this._listeners.shift()) {
-                listener(this._error!);
+                try {
+                    listener(this._error!);
+                } catch (error) {
+                    process.emit("uncaughtException", error);
+                }
             }
         });
     }
