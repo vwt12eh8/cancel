@@ -69,3 +69,13 @@ export class CancelSource implements Cancel {
         }
     }
 }
+
+export function delay(ms: number, cancel?: Cancel) {
+    return new Promise<void>((resolve, reject) => {
+        const t = setTimeout(resolve, ms);
+        cancel?.once((error) => {
+            clearTimeout(t);
+            reject(error);
+        });
+    });
+}
